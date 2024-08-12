@@ -4,9 +4,10 @@ const mongoose = require('mongoose');
 const user = require('./Model/user');
 const bcrypt = require('bcrypt');
 const userRouter = require('./Routers/userRouters/userRouter')
+const cors = require('cors')
 
-
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
+const corsOptionsMiddleware = require('./middleware/corsMiddleware');
 dotenv.config();
 
 const port = process.env.port 
@@ -20,6 +21,8 @@ mongoose.connect(db_url, {
 .catch(err => console.error('MongoDB connection error:', err));
 
 
+
+app.use(cors(corsOptionsMiddleware))
 app.use(express.json())
 
 app.use('/', userRouter)
